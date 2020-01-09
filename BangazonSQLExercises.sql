@@ -42,11 +42,12 @@
 --LEFT JOIN EmployeeTraining on EmployeeTraining.TrainingProgramId = TrainingProgram.Id
 --Group by TrainingProgram.[Name];
 
---9--INCORRECT, GET TEACHER
---SELECT TrainingProgram.[Name]
+--9--
+--SELECT TrainingProgram.[Name], COUNT(EmployeeTraining.TrainingProgramId) as Attendees, TrainingProgram.MaxAttendees
 --FROM TrainingProgram
 --LEFT JOIN EmployeeTraining ON EmployeeTraining.TrainingProgramId = TrainingProgram.Id
---HAVING TrainingProgram.MaxAttendees = Count(EmployeeTraining.TrainingProgramId);
+--GROUP BY TrainingProgram.[Name], TrainingProgram.MaxAttendees
+--HAVING COUNT(EmployeeTraining.TrainingProgramId) = TrainingProgram.MaxAttendees;
 
 --10--
 --SELECT TrainingProgram.[Name], TrainingProgram.StartDate
@@ -54,13 +55,26 @@
 --WHERE TrainingProgram.StartDate > (SELECT GETDATE())
 --ORDER BY TrainingProgram.StartDate ASC;
 
---11--Figure out how to compare the MaxAttendance from 9 then come back to this.
+--11--
 --INSERT INTO EmployeeTraining (EmployeeId, TrainingProgramId)
---Values(
+--Values(11,1);
 
---12-- It works, but I need more info on "Unique" and "Same"
-SELECT TOP 3 TrainingProgram.[Name], COUNT(EmployeeTraining.TrainingProgramId) As Attendees
-FROM TrainingProgram
-LEFT JOIN EmployeeTraining ON TrainingProgram.Id = EmployeeTraining.TrainingProgramId
-GROUP BY TrainingProgram.[Name]
-ORDER BY Attendees DESC;
+
+--12--
+--SELECT TOP 3 TrainingProgram.[Name], COUNT(EmployeeTraining.TrainingProgramId) As Attendees
+--FROM TrainingProgram
+--LEFT JOIN EmployeeTraining ON TrainingProgram.Id = EmployeeTraining.TrainingProgramId
+--GROUP BY TrainingProgram.[Name]
+--ORDER BY Attendees DESC;
+
+--13-- 
+--SELECT TOP 3 TrainingProgram.[Name], SUM(EmployeeTraining.TrainingProgramId) As Attendees
+--FROM TrainingProgram
+--INNER JOIN EmployeeTraining ON TrainingProgram.Id = EmployeeTraining.TrainingProgramId
+--GROUP BY TrainingProgram.[Name]
+--ORDER BY Attendees DESC;
+
+--14--
+--SELECT Employee.FirstName, Employee.LastName
+--FROM Employee
+--WHERE Employee.Id NOT IN (SELECT EmployeeId from ComputerEmployee);
